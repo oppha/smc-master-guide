@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SMC Master Guide — Smart Money Concepts</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap');
+
+  :root {
+    --bg: #0a0c10;
+    --bg2: #0f1318;
+    --bg3: #161b24;
+    --border: #1e2730;
+    --gold: #f0b429;
+    --gold2: #ffd166;
+    --green: #06d6a0;
+    --red: #ef476f;
+    --blue: #118ab2;
+    --blue2: #4ecdc4;
+    --gray: #8892a0;
+    --white: #e8edf2;
+    --accent: #f0b429;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #0a0c10 0%, #0f1a2e 50%, #0a0c10 100%);
+    border-bottom: 1px solid var(--gold);
+    padding: 60px 40px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(240,180,41,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    opacity: 0.8;
+  }
+  header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 8vw, 96px);
+    letter-spacing: 6px;
+    line-height: 0.95;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  header h1 span { color: var(--gold); }
+  .header-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--gray);
+    letter-spacing: 2px;
+    margin-top: 16px;
+  }
+  .version-badge {
+    display: inline-block;
+    margin-top: 24px;
+    background: rgba(240,180,41,0.1);
+    border: 1px solid rgba(240,180,41,0.3);
+    color: var(--gold);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    padding: 6px 18px;
+    letter-spacing: 2px;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 0 40px;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+  }
+  nav a {
+    color: var(--gray);
+    text-decoration: none;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    padding: 16px 20px;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  nav a:hover, nav a.active {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+  }
+
+  /* MAIN */
+  main { max-width: 1100px; margin: 0 auto; padding: 60px 40px; }
+
+  /* SECTION */
+  .section {
+    margin-bottom: 80px;
+    animation: fadeUp 0.5s ease forwards;
+    opacity: 0;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .section:nth-child(1) { animation-delay: 0.1s; }
+  .section:nth-child(2) { animation-delay: 0.2s; }
+  .section:nth-child(3) { animation-delay: 0.3s; }
+  .section:nth-child(4) { animation-delay: 0.4s; }
+  .section:nth-child(5) { animation-delay: 0.5s; }
+  .section:nth-child(6) { animation-delay: 0.6s; }
+  .section:nth-child(7) { animation-delay: 0.7s; }
+
+  .section-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    margin-bottom: 8px;
+    opacity: 0.7;
+  }
+  .section h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(32px, 5vw, 52px);
+    letter-spacing: 3px;
+    color: var(--white);
+    margin-bottom: 8px;
+    line-height: 1;
+  }
+  .section-divider {
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
+    margin: 16px 0 32px;
+  }
+
+  /* CARDS */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 24px;
+  }
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 28px;
+    transition: border-color 0.2s, transform 0.2s;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--card-accent, var(--gold));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .card:hover { border-color: var(--card-accent, var(--gold)); transform: translateY(-2px); }
+  .card:hover::before { transform: scaleX(1); }
+  .card.green { --card-accent: var(--green); }
+  .card.red { --card-accent: var(--red); }
+  .card.blue { --card-accent: var(--blue); }
+
+  .card-icon {
+    font-size: 24px;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .card h3 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    color: var(--white);
+  }
+  .card h3 .label {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 8px;
+    margin-left: 8px;
+    vertical-align: middle;
+    font-weight: 400;
+  }
+  .label-bullish { background: rgba(6,214,160,0.15); color: var(--green); border: 1px solid rgba(6,214,160,0.3); }
+  .label-bearish { background: rgba(239,71,111,0.15); color: var(--red); border: 1px solid rgba(239,71,111,0.3); }
+  .label-neutral { background: rgba(240,180,41,0.15); color: var(--gold); border: 1px solid rgba(240,180,41,0.3); }
+
+  .card p { font-size: 13.5px; color: var(--gray); line-height: 1.65; }
+
+  /* TAG */
+  .tag {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    padding: 3px 10px;
+    letter-spacing: 1px;
+    margin: 4px 4px 0 0;
+    border-radius: 0;
+  }
+  .tag-gold { background: rgba(240,180,41,0.1); color: var(--gold); border: 1px solid rgba(240,180,41,0.25); }
+  .tag-green { background: rgba(6,214,160,0.1); color: var(--green); border: 1px solid rgba(6,214,160,0.25); }
+  .tag-red { background: rgba(239,71,111,0.1); color: var(--red); border: 1px solid rgba(239,71,111,0.25); }
+  .tag-blue { background: rgba(17,138,178,0.1); color: var(--blue2); border: 1px solid rgba(17,138,178,0.25); }
+
+  /* TABLE */
+  .tbl-wrap { overflow-x: auto; margin-top: 20px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th {
+    background: var(--bg3);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: var(--gold);
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--gold);
+    white-space: nowrap;
+  }
+  td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--gray);
+    vertical-align: top;
+  }
+  tr:hover td { background: rgba(255,255,255,0.02); color: var(--white); }
+  td:first-child { color: var(--white); font-weight: 600; font-family: 'IBM Plex Mono', monospace; font-size: 13px; }
+
+  /* STEP BOX */
+  .steps { display: flex; flex-direction: column; gap: 0; margin-top: 24px; }
+  .step {
+    display: flex;
+    gap: 24px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    color: var(--gold);
+    opacity: 0.2;
+    line-height: 1;
+    min-width: 60px;
+    text-align: center;
+    transition: opacity 0.2s;
+  }
+  .step:hover .step-num { opacity: 0.6; }
+  .step-content h3 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+  }
+  .step-content p { font-size: 13.5px; color: var(--gray); }
+
+  /* ENTRY SETUP BOX */
+  .entry-box {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    margin-top: 24px;
+    overflow: hidden;
+  }
+  .entry-box-header {
+    background: var(--bg3);
+    padding: 14px 24px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .entry-box-body { padding: 24px; }
+  .entry-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    gap: 16px;
+  }
+  .entry-row:last-child { border-bottom: none; }
+  .entry-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--gray);
+    min-width: 80px;
+  }
+  .entry-val {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: right;
+  }
+  .entry-val.green { color: var(--green); }
+  .entry-val.red { color: var(--red); }
+  .entry-val.gold { color: var(--gold); }
+  .entry-val.gray { color: var(--gray); }
+
+  /* CHART VISUAL */
+  .chart-vis {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 32px 28px;
+    margin-top: 24px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    line-height: 2;
+    color: var(--gray);
+    overflow-x: auto;
+  }
+
+  /* ALERT BOX */
+  .alert {
+    padding: 18px 24px;
+    margin-top: 20px;
+    font-size: 13.5px;
+    border-left: 3px solid;
+  }
+  .alert-gold { border-color: var(--gold); background: rgba(240,180,41,0.06); color: var(--gold2); }
+  .alert-red { border-color: var(--red); background: rgba(239,71,111,0.06); color: #ff8fa3; }
+  .alert-green { border-color: var(--green); background: rgba(6,214,160,0.06); color: #4fffcf; }
+  .alert strong { display: block; margin-bottom: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 1.5px; }
+
+  /* CHECKLIST */
+  .checklist { list-style: none; margin-top: 16px; }
+  .checklist li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 13.5px;
+    color: var(--gray);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li::before {
+    content: '◆';
+    color: var(--gold);
+    font-size: 10px;
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+
+  /* BADGE PAIR */
+  .pair-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .pair-badge {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    padding: 8px 16px;
+    letter-spacing: 1px;
+    color: var(--white);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .pair-badge:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* FOOTER */
+  footer {
+    background: var(--bg2);
+    border-top: 1px solid var(--gold);
+    padding: 40px;
+    text-align: center;
+    color: var(--gray);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+  }
+  footer span { color: var(--gold); }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    main { padding: 40px 20px; }
+    header { padding: 40px 20px; }
+    nav { padding: 0 16px; }
+    .card-grid { grid-template-columns: 1fr; }
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-tag">Panduan Lengkap Indikator</div>
+  <h1>SMC<br><span>Master Guide</span></h1>
+  <div class="header-sub">Smart Money Concepts · Bahasa Indonesia</div>
+  <div class="version-badge">v1.0 · 2025 · Semua Level</div>
+</header>
+
+<nav>
+  <a href="#struktur" class="active">Struktur Market</a>
+  <a href="#ob">Order Block</a>
+  <a href="#fvg">FVG</a>
+  <a href="#zone">Premium & Discount</a>
+  <a href="#level">Level Kunci</a>
+  <a href="#entry">Setup Entry</a>
+  <a href="#manajemen">Manajemen</a>
+</nav>
+
+<main>
+
+  <!-- SECTION 1: STRUKTUR -->
+  <div class="section" id="struktur">
+    <div class="section-number">01 — DASAR</div>
+    <h2>Struktur Market</h2>
+    <div class="section-divider"></div>
+    <p style="color:var(--gray); max-width:680px;">Sebelum entry, kamu harus baca dulu "bahasa" pasar. SMC menggunakan swing high/low untuk menentukan siapa yang sedang mengendalikan market — buyer atau seller.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-icon">📈</span>
+        <h3>HH — Higher High <span class="label label-bullish">BULLISH</span></h3>
+        <p>Harga membuat puncak baru yang lebih tinggi dari sebelumnya. Tanda kuat bahwa buyer sedang mendominasi. Setiap HH = konfirmasi tren naik.</p>
+        <div style="margin-top:12px;">
+          <span class="tag tag-green">Tren Naik</span>
+          <span class="tag tag-green">Buyer Kuat</span>
+        </div>
+      </div>
+      <div class="card green">
+        <span class="card-icon">📉</span>
+        <h3>HL — Higher Low <span class="label label-bullish">BULLISH</span></h3>
+        <p>Harga koreksi ke bawah tapi tidak melewati low sebelumnya. Ini tanda bahwa buyer masih menjaga support. HL = tempat smart money akumulasi.</p>
+        <div style="margin-top:12px;">
+          <span class="tag tag-green">Support Kuat</span>
+          <span class="tag tag-green">Area Buy</span>
+        </div>
+      </div>
+      <div class="card red">
+        <span class="card-icon">⬇️</span>
+        <h3>LH — Lower High <span class="label label-bearish">BEARISH</span></h3>
+        <p>Harga rally tapi tidak tembus high sebelumnya. Tanda seller mulai mendominasi. LH = area yang sering dijadikan entry sell oleh smart money.</p>
+        <div style="margin-top:12px;">
+          <span class="tag tag-red">Tren Turun</span>
+          <span class="tag tag-red">Area Sell</span>
+        </div>
+      </div>
+      <div class="card red">
+        <span class="card-icon">📉</span>
+        <h3>LL — Lower Low <span class="label label-bearish">BEARISH</span></h3>
+        <p>Harga membuat lembah baru lebih rendah dari sebelumnya. Konfirmasi seller kuat. Setiap LL = tekanan turun berlanjut.</p>
+        <div style="margin-top:12px;">
+          <span class="tag tag-red">Seller Kuat</span>
+          <span class="tag tag-red">Tren Turun</span>
+        </div>
+      </div>
+      <div class="card">
+        <span class="card-icon">💥</span>
+        <h3>BOS — Break of Structure <span class="label label-neutral">KONFIRMASI</span></h3>
+        <p>Harga melewati swing high/low sebelumnya dengan kuat. BOS = konfirmasi bahwa tren sudah berubah arah atau tren lama berlanjut. Sinyal paling penting di SMC.</p>
+        <div style="margin-top:12px;">
+          <span class="tag tag-gold">Tren Baru</span>
+          <span class="tag tag-gold">Wajib Tunggu</span>
+        </div>
+      </div>
+      <div class="card blue">
+        <span class="card-icon">🔄</span>
+        <h3>CHoCH — Change of Character <span class="label label-neutral">REVERSAL</span></h3>
+        <p>Perubahan karakter market. Kalau tren sedang bearish lalu terbentuk HH pertama = CHoCH. Ini sinyal awal reversal sebelum BOS terkonfirmasi.</p>
+        <div style="margin-top:12px;">
+          <span class="tag tag-blue">Sinyal Awal</span>
+          <span class="tag tag-blue">Reversal</span>
+        </div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🔝</span>
+        <h3>EOH — Equal High <span class="label label-neutral">LIKUIDITAS</span></h3>
+        <p>Dua atau lebih high yang hampir sama levelnya. Area ini menyimpan banyak stop loss dan pending order. Smart money sering sweep area ini sebelum reversal.</p>
+        <div style="margin-top:12px;">
+          <span class="tag tag-gold">Likuiditas</span>
+          <span class="tag tag-gold">Sweep Target</span>
+        </div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🔻</span>
+        <h3>EQL — Equal Low <span class="label label-neutral">LIKUIDITAS</span></h3>
+        <p>Sama seperti EOH tapi di bawah. Dua low yang hampir sama = target likuiditas yang akan di-sweep sebelum harga naik.</p>
+        <div style="margin-top:12px;">
+          <span class="tag tag-gold">Likuiditas</span>
+          <span class="tag tag-gold">Sweep Target</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-vis">
+      <div style="color:var(--gold); margin-bottom:8px;">// VISUALISASI STRUKTUR BULLISH</div>
+      <pre style="font-family:'IBM Plex Mono',monospace; font-size:12px; line-height:1.8; color:var(--gray);">
+                           HH ●
+                          /   \
+              HH ●       /     \  LH ●
+             /   \      /       \   \
+   HH ●     /    HL●  /         HL● \
+  /   \    /         /               \  LL ●
+ /    HL● /         /                 \
+●                                      \  LL ●
+                                         \
+                                          LL ●
+
+◆ BOS terjadi saat harga break di atas HH sebelumnya
+◆ CHoCH terjadi saat HH pertama muncul dalam downtrend
+</pre>
+    </div>
+  </div>
+
+  <!-- SECTION 2: ORDER BLOCK -->
+  <div class="section" id="ob">
+    <div class="section-number">02 — ZONA KUNCI</div>
+    <h2>Order Block (OB)</h2>
+    <div class="section-divider"></div>
+    <p style="color:var(--gray); max-width:680px;">Order Block adalah candle terakhir sebelum harga bergerak kuat (impulsive). Di sinilah institusi dan smart money menempatkan order besar. OB = area paling valid untuk entry.</p>
+
+    <div class="card-grid">
+      <div class="card green">
+        <span class="card-icon">🟩</span>
+        <h3>Bullish OB <span class="label label-bullish">BUY ZONE</span></h3>
+        <p>Candle bearish (merah) terakhir sebelum harga naik kuat. Berada di zona Discount. Ketika harga kembali ke area ini, smart money mulai beli lagi.</p>
+        <div style="margin-top:12px;">
+          <span class="tag tag-green">Zona Discount</span>
+          <span class="tag tag-green">Area Buy</span>
+          <span class="tag tag-green">Support Kuat</span>
+        </div>
+      </div>
+      <div class="card red">
+        <span class="card-icon">🟥</span>
+        <h3>Bearish OB <span class="label label-bearish">SELL ZONE</span></h3>
+        <p>Candle bullish (hijau) terakhir sebelum harga turun kuat. Berada di zona Premium. Ketika harga kembali ke area ini, smart money mulai jual.</p>
+        <div style="margin-top:12px;">
+          <span class="tag tag-red">Zona Premium</span>
+          <span class="tag tag-red">Area Sell</span>
+          <span class="tag tag-red">Resistance Kuat</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Kriteria</th>
+            <th>Bullish OB ✅</th>
+            <th>Bearish OB 🔴</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Posisi di Chart</td>
+            <td>Di zona Discount (bawah)</td>
+            <td>Di zona Premium (atas)</td>
+          </tr>
+          <tr>
+            <td>Bentuk Candle</td>
+            <td>Candle merah / bearish</td>
+            <td>Candle hijau / bullish</td>
+          </tr>
+          <tr>
+            <td>Setelah OB</td>
+            <td>Harga naik impulsif</td>
+            <td>Harga turun impulsif</td>
+          </tr>
+          <tr>
+            <td>Cara Pakai</td>
+            <td>Buy saat harga retrace ke OB</td>
+            <td>Sell saat harga retrace ke OB</td>
+          </tr>
+          <tr>
+            <td>Validasi Tambahan</td>
+            <td>+ FVG, + BOS bullish</td>
+            <td>+ FVG, + BOS bearish</td>
+          </tr>
+          <tr>
+            <td>OB Gugur Jika</td>
+            <td>Break di bawah low OB</td>
+            <td>Break di atas high OB</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="alert alert-gold">
+      <strong>⚡ TIPS PRO</strong>
+      OB yang paling kuat adalah yang bertumpuk dengan FVG (Fair Value Gap) di zona yang sesuai — Bullish OB + Bullish FVG di Discount = setup buy terkuat.
+    </div>
+  </div>
+
+  <!-- SECTION 3: FVG -->
+  <div class="section" id="fvg">
+    <div class="section-number">03 — IMBALANCE</div>
+    <h2>Fair Value Gap (FVG)</h2>
+    <div class="section-divider"></div>
+    <p style="color:var(--gray); max-width:680px;">FVG adalah celah harga (gap) yang terbentuk saat pergerakan terlalu cepat dan tidak ada transaksi di area tersebut. Market selalu cenderung kembali mengisi gap ini sebelum melanjutkan tren.</p>
+
+    <div class="card-grid">
+      <div class="card green">
+        <span class="card-icon">⬆️</span>
+        <h3>Bullish FVG <span class="label label-bullish">BUY ZONE</span></h3>
+        <p>Gap antara high candle ke-1 dan low candle ke-3 dalam gerakan naik impulsif. Area ini jadi support — harga sering kembali ke sini sebelum naik lagi.</p>
+      </div>
+      <div class="card red">
+        <span class="card-icon">⬇️</span>
+        <h3>Bearish FVG <span class="label label-bearish">SELL ZONE</span></h3>
+        <p>Gap antara low candle ke-1 dan high candle ke-3 dalam gerakan turun impulsif. Area ini jadi resistance — harga sering kembali ke sini sebelum turun lagi.</p>
+      </div>
+    </div>
+
+    <div class="chart-vis">
+      <div style="color:var(--gold); margin-bottom:8px;">// CARA IDENTIFIKASI FVG (3 CANDLE RULE)</div>
+      <pre style="font-family:'IBM Plex Mono',monospace; font-size:12px; line-height:2; color:var(--gray);">
+  Candle 1    Candle 2     Candle 3
+  ┌───┐       ┌───┐        ┌───┐
+  │   │       │   │   FVG  │   │
+  │   │       │   │ ◄────► │   │    ◄ Gap antara High C1 dan Low C3
+  │   │       │   │        └───┘
+  └───┘       └───┘
+  
+  Jika: High Candle 1 TIDAK overlap dengan Low Candle 3 = FVG terbentuk!
+</pre>
+    </div>
+
+    <div class="alert alert-green">
+      <strong>✅ CARA PAKAI FVG</strong>
+      Tunggu harga kembali (retrace) ke dalam area FVG, lalu cari konfirmasi candle reversal di TF lebih kecil. Entry saat harga menyentuh 50% FVG (midpoint).
+    </div>
+  </div>
+
+  <!-- SECTION 4: PREMIUM DISCOUNT -->
+  <div class="section" id="zone">
+    <div class="section-number">04 — ZONA HARGA</div>
+    <h2>Premium & Discount Zone</h2>
+    <div class="section-divider"></div>
+    <p style="color:var(--gray); max-width:680px;">Konsep paling dasar SMC: jangan beli mahal, jangan jual murah. Gunakan Fibonacci 50% dari range untuk menentukan mana Premium (atas) dan Discount (bawah).</p>
+
+    <div class="chart-vis" style="padding: 40px 32px;">
+      <div style="display:flex; gap:32px; align-items:stretch; flex-wrap:wrap;">
+        <div style="flex:1; min-width:220px;">
+          <div style="color:var(--red); font-size:11px; letter-spacing:2px; margin-bottom:12px;">PREMIUM ZONE</div>
+          <div style="background:rgba(239,71,111,0.1); border:1px solid rgba(239,71,111,0.3); padding:20px 16px; margin-bottom:4px;">
+            <div style="color:var(--red); font-size:13px; margin-bottom:8px;">Strong High / PDH</div>
+            <div style="color:var(--gray); font-size:12px; line-height:1.8;">
+              ◆ Bearish OB<br>
+              ◆ Bearish FVG<br>
+              ◆ Area SELL<br>
+              ◆ Distribusi SM
+            </div>
+          </div>
+          <div style="border-top:2px dashed var(--gold); padding-top:8px; color:var(--gold); font-size:11px; letter-spacing:2px;">EQUILIBRIUM — 50%</div>
+          <div style="background:rgba(6,214,160,0.1); border:1px solid rgba(6,214,160,0.3); padding:20px 16px; margin-top:4px;">
+            <div style="color:var(--green); font-size:13px; margin-bottom:8px;">Strong Low / PDL</div>
+            <div style="color:var(--gray); font-size:12px; line-height:1.8;">
+              ◆ Bullish OB<br>
+              ◆ Bullish FVG<br>
+              ◆ Area BUY<br>
+              ◆ Akumulasi SM
+            </div>
+          </div>
+          <div style="color:var(--green); font-size:11px; letter-spacing:2px; margin-top:4px;">DISCOUNT ZONE</div>
+        </div>
+        <div style="flex:1; min-width:220px; display:flex; flex-direction:column; justify-content:center;">
+          <div style="color:var(--gold); font-size:11px; letter-spacing:2px; margin-bottom:16px;">// ATURAN SEDERHANA</div>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:12px;">
+            <li style="display:flex;gap:12px;align-items:flex-start;color:var(--gray);font-size:13px;">
+              <span style="color:var(--green);">✅</span> BUY di Discount (bawah equilibrium)
+            </li>
+            <li style="display:flex;gap:12px;align-items:flex-start;color:var(--gray);font-size:13px;">
+              <span style="color:var(--red);">✅</span> SELL di Premium (atas equilibrium)
+            </li>
+            <li style="display:flex;gap:12px;align-items:flex-start;color:var(--gray);font-size:13px;">
+              <span style="color:var(--red);">❌</span> Jangan BUY di Premium
+            </li>
+            <li style="display:flex;gap:12px;align-items:flex-start;color:var(--gray);font-size:13px;">
+              <span style="color:var(--red);">❌</span> Jangan SELL di Discount
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: LEVEL KUNCI -->
+  <div class="section" id="level">
+    <div class="section-number">05 — REFERENSI HARGA</div>
+    <h2>Level Kunci Indikator</h2>
+    <div class="section-divider"></div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Label</th>
+            <th>Kepanjangan</th>
+            <th>Artinya</th>
+            <th>Fungsi Trading</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>PDH</td>
+            <td>Previous Day High</td>
+            <td>High hari sebelumnya</td>
+            <td>Resistance potensial, target TP, area sell</td>
+          </tr>
+          <tr>
+            <td>PDL</td>
+            <td>Previous Day Low</td>
+            <td>Low hari sebelumnya</td>
+            <td>Support potensial, area buy, target sweep</td>
+          </tr>
+          <tr>
+            <td>PWH</td>
+            <td>Previous Week High</td>
+            <td>High minggu sebelumnya</td>
+            <td>Resistance major, target TP jangka menengah</td>
+          </tr>
+          <tr>
+            <td>PWL</td>
+            <td>Previous Week Low</td>
+            <td>Low minggu sebelumnya</td>
+            <td>Support major, area buy swing trade</td>
+          </tr>
+          <tr>
+            <td>Strong High</td>
+            <td>—</td>
+            <td>High yang belum di-sweep / break</td>
+            <td>Target likuiditas jangka panjang, resistance kuat</td>
+          </tr>
+          <tr>
+            <td>Weak High</td>
+            <td>—</td>
+            <td>High yang mudah tembus</td>
+            <td>Area target sweep, lebih mudah break</td>
+          </tr>
+          <tr>
+            <td>Strong Low</td>
+            <td>—</td>
+            <td>Low yang belum di-sweep / break</td>
+            <td>Support kuat, area buy major</td>
+          </tr>
+          <tr>
+            <td>Weak Low</td>
+            <td>—</td>
+            <td>Low yang rawan tembus</td>
+            <td>Kalau break = target ke Strong Low</td>
+          </tr>
+          <tr>
+            <td>Equilibrium</td>
+            <td>—</td>
+            <td>Titik 50% dari range</td>
+            <td>Garis pembatas Premium vs Discount</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION 6: SETUP ENTRY -->
+  <div class="section" id="entry">
+    <div class="section-number">06 — EKSEKUSI</div>
+    <h2>Setup Entry — Step by Step</h2>
+    <div class="section-divider"></div>
+    <p style="color:var(--gray); max-width:680px;">Ini inti dari semua analisa. Semua elemen di atas harus selaras sebelum kamu eksekusi. Gunakan urutan ini setiap kali mau entry.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <h3>BACA TREND DI HIGHER TIMEFRAME (HTF)</h3>
+          <p>Mulai dari D1 atau H4. Tentukan dulu arah besar: apakah struktur membentuk HH/HL (bullish) atau LH/LL (bearish)? Ini adalah bias utamamu. Jangan trade melawan HTF kecuali ada alasan kuat.</p>
+          <div style="margin-top:10px;">
+            <span class="tag tag-gold">D1 / H4 dulu</span>
+            <span class="tag tag-gold">Tentukan Bias</span>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <h3>TENTUKAN POSISI HARGA: PREMIUM ATAU DISCOUNT?</h3>
+          <p>Gunakan Equilibrium (50% dari range HTF). Kalau bias bullish, tunggu harga masuk Discount Zone dulu sebelum buy. Kalau bias bearish, tunggu harga masuk Premium Zone sebelum sell. Ini filter utama.</p>
+          <div style="margin-top:10px;">
+            <span class="tag tag-green">Buy di Discount</span>
+            <span class="tag tag-red">Sell di Premium</span>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <h3>CARI ORDER BLOCK + FVG DI ZONA YANG SESUAI</h3>
+          <p>Di dalam zona Discount, cari Bullish OB. Lebih kuat lagi kalau ada Bullish FVG di dalam/dekat OB tersebut. Ini area di mana smart money biasanya masuk. Tandai batas atas dan bawah OB dengan jelas.</p>
+          <div style="margin-top:10px;">
+            <span class="tag tag-blue">OB + FVG = Konfluensi</span>
+            <span class="tag tag-blue">Semakin Banyak = Semakin Kuat</span>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <h3>TUNGGU KONFIRMASI DI LOWER TIMEFRAME (LTF)</h3>
+          <p>Pindah ke M15 atau M5. Tunggu salah satu dari: CHoCH kecil ke arah bias, Bullish/Bearish Engulfing di OB, atau Pin Bar rejection di OB. Jangan entry sebelum ada konfirmasi — ini titik yang paling sering diabaikan trader.</p>
+          <div style="margin-top:10px;">
+            <span class="tag tag-gold">CHoCH LTF</span>
+            <span class="tag tag-gold">Engulfing</span>
+            <span class="tag tag-gold">Pin Bar</span>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">05</div>
+        <div class="step-content">
+          <h3>EKSEKUSI ENTRY + PASANG SL DAN TP</h3>
+          <p>Entry di bagian bawah OB (untuk buy) atau bagian atas OB (untuk sell). SL selalu di luar OB (di bawah Weak Low untuk buy, di atas Weak High untuk sell). TP pertama di Equilibrium, TP2 di PDH/PWH, TP3 di Strong High.</p>
+          <div style="margin-top:10px;">
+            <span class="tag tag-green">Entry dalam OB</span>
+            <span class="tag tag-red">SL di luar OB</span>
+            <span class="tag tag-blue">TP bertingkat</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:40px;">
+      <div style="color:var(--gold); font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:2px; margin-bottom:16px;">// CONTOH SETUP BUY</div>
+      <div class="entry-box">
+        <div class="entry-box-header">
+          <span>BUY SETUP — KONFLUENSI PENUH</span>
+          <span style="color:var(--green);">VALID ✓</span>
+        </div>
+        <div class="entry-box-body">
+          <div class="entry-row">
+            <span class="entry-label">BIAS HTF</span>
+            <span class="entry-val green">BULLISH (HH/HL terkonfirmasi)</span>
+          </div>
+          <div class="entry-row">
+            <span class="entry-label">ZONA</span>
+            <span class="entry-val green">DISCOUNT — bawah Equilibrium</span>
+          </div>
+          <div class="entry-row">
+            <span class="entry-label">OB</span>
+            <span class="entry-val green">Bullish OB aktif</span>
+          </div>
+          <div class="entry-row">
+            <span class="entry-label">FVG</span>
+            <span class="entry-val green">Bullish FVG overlap dengan OB</span>
+          </div>
+          <div class="entry-row">
+            <span class="entry-label">KONFIRMASI</span>
+            <span class="entry-val green">CHoCH bullish di M15</span>
+          </div>
+          <div class="entry-row">
+            <span class="entry-label">ENTRY</span>
+            <span class="entry-val gold">Batas bawah OB / 50% FVG</span>
+          </div>
+          <div class="entry-row">
+            <span class="entry-label">STOP LOSS</span>
+            <span class="entry-val red">5–10 pip di bawah Weak Low</span>
+          </div>
+          <div class="entry-row">
+            <span class="entry-label">TP 1</span>
+            <span class="entry-val gold">Equilibrium (50% range)</span>
+          </div>
+          <div class="entry-row">
+            <span class="entry-label">TP 2</span>
+            <span class="entry-val gold">PDH / Bearish OB terdekat</span>
+          </div>
+          <div class="entry-row">
+            <span class="entry-label">TP 3</span>
+            <span class="entry-val gold">Strong High / Premium</span>
+          </div>
+          <div class="entry-row">
+            <span class="entry-label">MIN RR</span>
+            <span class="entry-val green">1 : 2</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-red" style="margin-top:20px;">
+      <strong>🚫 JANGAN ENTRY JIKA</strong>
+      Harga di Premium (untuk buy) — Tidak ada OB/FVG yang jelas — Belum ada konfirmasi di LTF — SL terlalu besar sehingga RR kurang dari 1:1.5 — News besar akan keluar dalam 30 menit.
+    </div>
+  </div>
+
+  <!-- SECTION 7: MANAJEMEN -->
+  <div class="section" id="manajemen">
+    <div class="section-number">07 — DISIPLIN</div>
+    <h2>Manajemen Risiko & Psikologi</h2>
+    <div class="section-divider"></div>
+
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-icon">💰</span>
+        <h3>Risk Per Trade</h3>
+        <p>Maksimal risiko 1–2% dari total modal per trade. Ini memastikan kamu masih bisa trading bahkan setelah 10 loss berturut-turut. Tidak ada setup yang worth it lebih dari 2%.</p>
+      </div>
+      <div class="card green">
+        <span class="card-icon">📐</span>
+        <h3>Risk Reward Ratio</h3>
+        <p>Minimal RR 1:2 sebelum entry. Artinya, kalau kamu risk $10, pastikan potensi profit minimal $20. Setup dengan RR di bawah 1:1.5 sebaiknya dilewati.</p>
+      </div>
+      <div class="card blue">
+        <span class="card-icon">🎯</span>
+        <h3>Partial Close</h3>
+        <p>Close sebagian posisi (50%) di TP1 (Equilibrium). Pindahkan SL ke breakeven. Biarkan sisa posisi jalan ke TP2 dan TP3. Ini cara smart money manage posisi.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">⏰</span>
+        <h3>Waktu Terbaik Trading</h3>
+        <p>Hindari entry saat market overlap Asia-London (noise tinggi). Terbaik: London Open (14.00–17.00 WIB) dan New York Open (19.00–22.00 WIB). Hindari Jumat sore.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:32px;">
+      <div style="color:var(--gold); font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:2px; margin-bottom:16px;">// CHECKLIST SEBELUM ENTRY</div>
+      <ul class="checklist">
+        <li>Sudah identifikasi bias HTF (H4/D1) dengan jelas</li>
+        <li>Harga berada di zona yang sesuai dengan bias (Premium/Discount)</li>
+        <li>Ada Order Block yang valid di zona tersebut</li>
+        <li>OB didukung FVG atau level S/R tambahan (konfluensi)</li>
+        <li>Ada konfirmasi CHoCH atau candle reversal di LTF (M15/M5)</li>
+        <li>SL sudah dipasang di luar OB / Weak Low/High</li>
+        <li>RR minimal 1:2 sudah terkonfirmasi</li>
+        <li>Tidak ada news high impact dalam 30 menit ke depan</li>
+        <li>Ukuran lot sesuai dengan manajemen risiko (max 2% modal)</li>
+        <li>Siap accept loss jika market invalidasi setup</li>
+      </ul>
+    </div>
+
+    <div class="alert alert-gold" style="margin-top:32px;">
+      <strong>💡 MINDSET KUNCI</strong>
+      SMC bukan tentang selalu benar — tapi tentang trading dengan probabilitas dan manajemen risiko yang baik. Bahkan dengan win rate 50%, RR 1:2 sudah bisa profitable dalam jangka panjang. Fokus pada proses, bukan hasil satu trade.
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div style="font-size:16px; color:var(--gold); font-family:'Bebas Neue',sans-serif; letter-spacing:4px; margin-bottom:12px;">SMC MASTER GUIDE</div>
+  <div>Smart Money Concepts · Bahasa Indonesia · <span>Untuk Referensi Pribadi</span></div>
+  <div style="margin-top:8px; opacity:0.4;">Semua keputusan trading adalah tanggung jawab trader sendiri.</div>
+</footer>
+
+<script>
+  // Smooth scroll & active nav
+  document.querySelectorAll('nav a').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelectorAll('nav a').forEach(x => x.classList.remove('active'));
+      a.classList.add('active');
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // Update active nav on scroll
+  const sections = document.querySelectorAll('.section[id]');
+  const navLinks = document.querySelectorAll('nav a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+</script>
+
+</body>
+</html>
